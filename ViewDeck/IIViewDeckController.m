@@ -88,6 +88,10 @@ __typeof__(h) __h = (h);                                    \
 #import <objc/message.h>
 #import "IIWrapController.h"
 
+NSString * const IIViewDeskApplicationWillChangeStatusBarHiddenNotification = @"IIViewDeskApplicationWillChangeStatusBarHiddenNotification";
+NSString * const IIViewDeskApplicationDidChangeStatusBarHiddenNotification = @"IIViewDeskApplicationDidChangeStatusBarHiddenNotification";
+NSString * const IIViewDeskApplicatioStatusBarHiddenUserInfoKey = @"IIViewDeskApplicatioStatusBarHiddenUserInfoKey";
+NSString * const IIViewDeskApplicatioStatusBarHiddenAnimationUserInfoKey = @"IIViewDeskApplicatioStatusBarHiddenAnimationUserInfoKey";
 
 enum {
     IIViewDeckNoSide = 0,
@@ -329,6 +333,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         self.bottomController = nil;
 
         _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(statusBarHiddenWillChange:)
+                                                     name:IIViewDeskApplicationWillChangeStatusBarHiddenNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(statusBarHiddenDidChange:)
+                                                     name:IIViewDeskApplicationDidChangeStatusBarHiddenNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -413,6 +426,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.rightController.viewDeckController = nil;
     self.rightController = nil;
     self.panners = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 #if !II_ARC_ENABLED
     [super dealloc];
@@ -1127,6 +1142,62 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         ledge = MIN(_maxLedge, ledge);
 
     _ledge[side] = [self performDelegate:@selector(viewDeckController:changesLedge:forSide:) ledge:ledge side:side];
+}
+
+#pragma mark - Status Bar Nofitications
+
+- (void)statusBarHiddenWillChange:(NSNotification *)notification
+{
+    BOOL hidden = [notification.userInfo[IIViewDeskApplicatioStatusBarHiddenUserInfoKey] boolValue];
+    if (hidden) {
+        //// animate expansion of frame
+        UIApplication *application = [UIApplication sharedApplication];
+        CGRect statusBarFrame = application.statusBarFrame;
+        CGSize statusBarSize = statusBarFrame.size;
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            CGRect frame = self.view.frame;
+            switch (application.statusBarOrientation) {
+                case UIInterfaceOrientationLandscapeLeft:
+                    frame.origin.x -= statusBarSize.width;
+                    break;
+                case UIInterfaceOrientationLandscapeRight:
+                    frame.size.width += statusBarSize.width;
+                    break;
+                default:
+                    frame.origin.y -= statusBarSize.height;
+                    frame.size.height += statusBarSize.height;
+                    break;
+            }
+            self.view.frame = frame;
+        } completion:nil];
+    }
+}
+
+- (void)statusBarHiddenDidChange:(NSNotification *)notification
+{
+    BOOL hidden = [notification.userInfo[IIViewDeskApplicatioStatusBarHiddenUserInfoKey] boolValue];
+    if (!hidden) {
+        //// animate contraction of frame
+        UIApplication *application = [UIApplication sharedApplication];
+        CGRect statusBarFrame = application.statusBarFrame;
+        CGSize statusBarSize = statusBarFrame.size;
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            CGRect frame = self.view.frame;
+            switch (application.statusBarOrientation) {
+                case UIInterfaceOrientationLandscapeLeft:
+                    frame.origin.x += statusBarSize.width;
+                    break;
+                case UIInterfaceOrientationLandscapeRight:
+                    frame.size.width -= statusBarSize.width;
+                    break;
+                default:
+                    frame.origin.y += statusBarSize.height;
+                    frame.size.height -= statusBarSize.height;
+                    break;
+            }
+            self.view.frame = frame;
+        } completion:nil];
+    }
 }
 
 #pragma mark - Notify

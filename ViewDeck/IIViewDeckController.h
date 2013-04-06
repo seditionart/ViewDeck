@@ -111,6 +111,11 @@ typedef UInt32 IIViewDeckDelegateMode;
 extern NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide(IIViewDeckSide side);
 
+extern NSString * const IIViewDeskApplicationWillChangeStatusBarHiddenNotification;
+extern NSString * const IIViewDeskApplicationDidChangeStatusBarHiddenNotification;
+extern NSString * const IIViewDeskApplicatioStatusBarHiddenUserInfoKey;
+extern NSString * const IIViewDeskApplicatioStatusBarHiddenAnimationUserInfoKey;
+
 @interface IIViewDeckController : UIViewController {
 @private    
     CGPoint _panOrigin;
