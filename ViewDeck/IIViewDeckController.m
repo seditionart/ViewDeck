@@ -88,10 +88,10 @@ __typeof__(h) __h = (h);                                    \
 #import <objc/message.h>
 #import "IIWrapController.h"
 
-NSString * const IIViewDeskApplicationWillChangeStatusBarHiddenNotification = @"IIViewDeskApplicationWillChangeStatusBarHiddenNotification";
-NSString * const IIViewDeskApplicationDidChangeStatusBarHiddenNotification = @"IIViewDeskApplicationDidChangeStatusBarHiddenNotification";
-NSString * const IIViewDeskApplicatioStatusBarHiddenUserInfoKey = @"IIViewDeskApplicatioStatusBarHiddenUserInfoKey";
-NSString * const IIViewDeskApplicatioStatusBarHiddenAnimationUserInfoKey = @"IIViewDeskApplicatioStatusBarHiddenAnimationUserInfoKey";
+NSString * const IIViewDeckApplicationWillChangeStatusBarHiddenNotification = @"IIViewDeckApplicationWillChangeStatusBarHiddenNotification";
+NSString * const IIViewDeckApplicationDidChangeStatusBarHiddenNotification = @"IIViewDeckApplicationDidChangeStatusBarHiddenNotification";
+NSString * const IIViewDeckApplicatioStatusBarHiddenUserInfoKey = @"IIViewDeckApplicatioStatusBarHiddenUserInfoKey";
+NSString * const IIViewDeckApplicatioStatusBarHiddenAnimationUserInfoKey = @"IIViewDeckApplicatioStatusBarHiddenAnimationUserInfoKey";
 
 enum {
     IIViewDeckNoSide = 0,
@@ -336,11 +336,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(statusBarHiddenWillChange:)
-                                                     name:IIViewDeskApplicationWillChangeStatusBarHiddenNotification
+                                                     name:IIViewDeckApplicationWillChangeStatusBarHiddenNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(statusBarHiddenDidChange:)
-                                                     name:IIViewDeskApplicationDidChangeStatusBarHiddenNotification
+                                                     name:IIViewDeckApplicationDidChangeStatusBarHiddenNotification
                                                    object:nil];
     }
     return self;

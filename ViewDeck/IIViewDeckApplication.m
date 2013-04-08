@@ -16,18 +16,18 @@
 {
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     NSDictionary *userInfo = @{
-                               IIViewDeskApplicatioStatusBarHiddenUserInfoKey: [NSNumber numberWithBool:hidden],
-                               IIViewDeskApplicatioStatusBarHiddenAnimationUserInfoKey: [NSNumber numberWithInteger:animation]
+                               IIViewDeckApplicatioStatusBarHiddenUserInfoKey: [NSNumber numberWithBool:hidden],
+                               IIViewDeckApplicatioStatusBarHiddenAnimationUserInfoKey: [NSNumber numberWithInteger:animation]
                                };
     
-    NSNotification *notification = [NSNotification notificationWithName:IIViewDeskApplicationWillChangeStatusBarHiddenNotification
+    NSNotification *notification = [NSNotification notificationWithName:IIViewDeckApplicationWillChangeStatusBarHiddenNotification
                                                                  object:self
                                                                userInfo:userInfo];
     [defaultCenter postNotification:notification];
     
     [super setStatusBarHidden:hidden withAnimation:animation];
     
-    notification = [NSNotification notificationWithName:IIViewDeskApplicationDidChangeStatusBarHiddenNotification
+    notification = [NSNotification notificationWithName:IIViewDeckApplicationDidChangeStatusBarHiddenNotification
                                                  object:self
                                                userInfo:userInfo];
     [defaultCenter postNotification:notification];
