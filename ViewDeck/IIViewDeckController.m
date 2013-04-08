@@ -1148,7 +1148,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)statusBarHiddenWillChange:(NSNotification *)notification
 {
-    BOOL hidden = [notification.userInfo[IIViewDeskApplicatioStatusBarHiddenUserInfoKey] boolValue];
+    BOOL hidden = [notification.userInfo[IIViewDeckApplicatioStatusBarHiddenUserInfoKey] boolValue];
     if (hidden) {
         //// animate expansion of frame
         UIApplication *application = [UIApplication sharedApplication];
@@ -1175,7 +1175,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)statusBarHiddenDidChange:(NSNotification *)notification
 {
-    BOOL hidden = [notification.userInfo[IIViewDeskApplicatioStatusBarHiddenUserInfoKey] boolValue];
+    BOOL hidden = [notification.userInfo[IIViewDeckApplicatioStatusBarHiddenUserInfoKey] boolValue];
     if (!hidden) {
         //// animate contraction of frame
         UIApplication *application = [UIApplication sharedApplication];
