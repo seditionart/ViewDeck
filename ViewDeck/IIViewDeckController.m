@@ -1148,6 +1148,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)statusBarHiddenWillChange:(NSNotification *)notification
 {
+    if (self.wantsFullScreenLayout) {
+        return;
+    }
     BOOL hidden = [notification.userInfo[IIViewDeckApplicatioStatusBarHiddenUserInfoKey] boolValue];
     if (hidden) {
         //// animate expansion of frame
@@ -1175,6 +1178,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)statusBarHiddenDidChange:(NSNotification *)notification
 {
+    if (self.wantsFullScreenLayout) {
+        return;
+    }
     BOOL hidden = [notification.userInfo[IIViewDeckApplicatioStatusBarHiddenUserInfoKey] boolValue];
     if (!hidden) {
         //// animate contraction of frame
