@@ -955,16 +955,17 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark - Rotation IOS6
 
 - (BOOL)shouldAutorotate {
-    _preRotationSize = self.referenceBounds.size;
-    _preRotationCenterSize = self.centerView.bounds.size;
-    _willAppearShouldArrangeViewsAfterRotation = self.interfaceOrientation;
-    
-    // give other controllers a chance to act on it too
-    [self relayRotationMethod:^(UIViewController *controller) {
-        [controller shouldAutorotate];
-    }];
-
-    return !self.centerController || [self.centerController shouldAutorotate];
+    return NO;
+//    _preRotationSize = self.referenceBounds.size;
+//    _preRotationCenterSize = self.centerView.bounds.size;
+//    _willAppearShouldArrangeViewsAfterRotation = self.interfaceOrientation;
+//    
+//    // give other controllers a chance to act on it too
+//    [self relayRotationMethod:^(UIViewController *controller) {
+//        [controller shouldAutorotate];
+//    }];
+//
+//    return !self.centerController || [self.centerController shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
